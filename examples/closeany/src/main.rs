@@ -1,8 +1,8 @@
 extern crate getopts;
 extern crate ptrace_do_rs;
 
-use ptrace_do_rs::*;
 use getopts::Options;
+use ptrace_do_rs::*;
 use std::env;
 
 fn print_usage(program: &str, opts: Options) {
@@ -19,18 +19,25 @@ fn main() {
     opts.optflag("h", "help", "print this help menu");
 
     let matches = match opts.parse(&args[1..]) {
-        Ok(m) => { m }
-        Err(f) => { panic!(f.to_string()) }
+        Ok(m) => m,
+        Err(f) => {
+            panic!(f.to_string())
+        }
     };
     if matches.opt_present("h") {
         print_usage(&program, opts);
         return;
     }
-    let fds =  matches.free.iter().map(|fd|{
-        fd.parse::<i32>().expect("expect input valid fd(integer)")
-    }).collect();
+    let fds = matches
+        .free
+        .iter()
+        .map(|fd| fd.parse::<i32>().expect("expect input valid fd(integer)"))
+        .collect();
 
-    let pid = matches.opt_str("p").map(|e| e.parse::<i32>().expect("expect valid pid")).expect("must input pid");
+    let pid = matches
+        .opt_str("p")
+        .map(|e| e.parse::<i32>().expect("expect valid pid"))
+        .expect("must input pid");
 
     do_close(pid, fds);
 }

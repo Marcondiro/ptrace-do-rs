@@ -24,7 +24,7 @@ maintenance = { status = "actively-developed" }
 rustflags = ["-C target-feature=+crt-static"]
 
 [build-dependencies]
-bindgen = "0.53.1"
+bindgen = "0.70.1"
 cc = "1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
